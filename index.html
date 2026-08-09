@@ -3,14 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aplikasi Klien</title>
+  <title>Aplikasi System</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; }
-    iframe { width: 100%; height: 100%; border: none; display: block; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #f8f9fa;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    .error-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      padding: 20px;
+      color: #333;
+    }
+    .error-container h2 { margin-bottom: 10px; color: #e53e3e; }
+    .error-container p { color: #718096; max-width: 400px; line-height: 1.5; }
   </style>
 </head>
 <body>
-  <iframe src="https://script.google.com/a/~/macros/s/AKfycbzgjAk7w42yfo__sGnEYSG1aSn7cazBwa7ojwAE3uUQBqy5tGRqVhUKnhpM6BVM9hA/exec" allowfullscreen></iframe>
+
+  <!-- Element iFrame untuk memuat GAS -->
+  <iframe id="appFrame" allowfullscreen style="display: none;"></iframe>
+
+  <!-- Tampilan cadangan jika parameter ID tidak ada di URL -->
+  <div id="errorMessage" class="error-container" style="display: none;">
+    <h2>Akses Ditolak / ID Tidak Valid</h2>
+    <p>Aplikasi tidak dapat dimuat karena ID Skrip tidak ditemukan. Pastikan Anda menggunakan tautan resmi yang telah diberikan.</p>
+  </div>
+
+  <script>
+    // 1. Ambil ID dari URL parameter "?id=" atau "?app="
+    const urlParams = new URLSearchParams(window.location.search);
+    const appId = urlParams.get('id') || urlParams.get('app');
+
+    const iframe = document.getElementById('appFrame');
+    const errorDiv = document.getElementById('errorMessage');
+
+    if (appId) {
+      // 2. Jika ID ditemukan, susun URL Google Apps Script
+      // Format URL GAS: https://script.google.com/macros/s/{ID_SCRIPT}/exec
+      const gasUrl = `https://script.google.com/macros/s/${appId}/exec`;
+      
+      iframe.src = gasUrl;
+      iframe.style.display = 'block';
+    } else {
+      // 3. Jika ID kosong, tampilkan pesan error
+      errorDiv.style.display = 'flex';
+    }
+  </script>
 </body>
 </html>
