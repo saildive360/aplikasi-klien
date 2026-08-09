@@ -59,7 +59,7 @@
     if (appId) {
       // 2. Jika ID ditemukan, susun URL Google Apps Script
       // Format URL GAS: https://script.google.com/macros/s/{ID_SCRIPT}/exec
-      const gasUrl = `https://script.google.com/macros/s/${appId}/exec`;
+      const gasUrl = `https://script.google.com/a/~/macros/s/${appId}/exec`;
       
       iframe.src = gasUrl;
       iframe.style.display = 'block';
